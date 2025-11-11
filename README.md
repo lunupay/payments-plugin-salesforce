@@ -75,7 +75,7 @@ Configure the Lunu API service credentials:
 **Administration > Operations > Services > Credentials**
 
 Find `http.lunupayment.cred` and configure:
-- **URL**: `https://alpha.lunu.io/api/v1/` (or production URL)
+- **URL**: `https://api.lunupay.com/api/v1/` (or production URL)
 - Leave User ID and Password empty (authentication uses custom headers)
 
 ### 5. Configure Site Preferences
