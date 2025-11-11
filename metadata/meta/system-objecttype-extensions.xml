@@ -33,7 +33,7 @@
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
-                <default-value>https://widget.lunu.io/testing/#/?action=select&amp;cancel={cancelURL}&amp;success={successURL}&amp;token={token}</default-value>
+                <default-value>https://widget.lunupay.com/sandbox/#/?action=select&amp;cancel={cancelURL}&amp;success={successURL}&amp;token={token}</default-value>
             </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>

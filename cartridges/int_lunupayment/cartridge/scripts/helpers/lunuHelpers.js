@@ -21,7 +21,7 @@ function comparePaymentInformationAndOrder(paymentInformation, order, validPayme
 
     const paymentStatus = paymentInformation.status.toLowerCase();
     if (validPaymentStatuses.indexOf(paymentStatus) === -1) {
-        Logger.debug('Lunu Payment status is invalid. Callback status: {0} - Payment status {1}', callbackPaymentStatus, paymentStatus);
+        Logger.debug('Lunu Payment status is invalid. Payment status: {0}', paymentStatus);
         return false;
     }
 

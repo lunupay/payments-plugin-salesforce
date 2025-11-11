@@ -45,6 +45,10 @@ function processNotifications() {
                 });
                 Logger.info('Process Lunu payment notifications: Order placed successfully {0}', notification.custom.orderID);
             } else if (notification.custom.status === 'failed' || notification.custom.status === 'expired' || notification.custom.status === 'canceled') {
+                let order = OrderMgr.getOrder(notification.custom.orderID);
+                if (empty(order)) {
+                    continue;
+                }
                 Transaction.wrap(function () {
                     OrderMgr.failOrder(order, true);
                     order.addNote('Order fail', 'Order failed during lunu notification process. Reason: payment status: {0}. Notification id: {1}', notification.custom.status, notification.transactionId);
