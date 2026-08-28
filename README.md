@@ -75,7 +75,7 @@ Configure the Lunu API service credentials:
 **Administration > Operations > Services > Credentials**
 
 Find `http.lunupayment.cred` and configure:
-- **URL**: `https://api.lunupay.com/api/v1/` (or production URL)
+- **URL**: `https://api.lunupay.com/legacy-api/v1/` (the host is switched to `api.sandbox.lunupay.com` automatically when **Lunu Sandbox Mode** is enabled)
 - Leave User ID and Password empty (authentication uses custom headers)
 
 ### 5. Configure Site Preferences
@@ -89,7 +89,7 @@ Configure the following settings:
 | **Lunu Enabled** | Enable/disable the integration | `true` |
 | **Lunu App ID** | Your Lunu application ID | `your-app-id` |
 | **Lunu Secret Key** | Your Lunu secret key | `your-secret-key` |
-| **Lunu Widget URL** | Payment widget URL template | `https://widget.lunupay.com/sandbox/#/?action=select&cancel={cancelURL}&success={successURL}&token={token}` |
+| **Lunu Sandbox Mode** | Use the Lunu sandbox environment (switches both the payment widget and the API host) | `false` |
 
 **Security Note**: Keep your Secret Key confidential and never commit it to version control.
 
@@ -115,25 +115,31 @@ This job processes incoming payment notifications and updates order statuses aut
 
 ## Configuration
 
-### Widget URL Placeholders
+### Widget URL
 
-The Widget URL supports the following placeholders:
+The payment widget URL is generated automatically at checkout:
 
-- `{token}` - Lunu payment confirmation token
-- `{successURL}` - Callback URL for successful payments
-- `{cancelURL}` - Callback URL for canceled/failed payments
+```
+https://widget.lunupay.com/?order_id={paymentId}&success={successURL}&cancel={cancelURL}
+```
+
+(or `https://widget.sandbox.lunupay.com/` when **Lunu Sandbox Mode** is enabled — the same preference also switches API calls to `api.sandbox.lunupay.com`), where:
+
+- `order_id` - payment ID returned by the Lunu create-payment API
+- `success` - redirect URL for successful payments (`LunuPayment-Success`)
+- `cancel` - redirect URL for canceled/failed payments (`LunuPayment-Failed`)
 
 ### Environment Configuration
 
+The environment is controlled by the single **Lunu Sandbox Mode** site preference — it switches both the payment widget host (`widget.lunupay.com` / `widget.sandbox.lunupay.com`) and the API host (`api.lunupay.com` / `api.sandbox.lunupay.com`). The service credential URL can stay at `https://api.lunupay.com/legacy-api/v1/` for both environments.
+
 For **Production** environments:
-- Update the service credential URL to production endpoint
 - Use production Lunu App ID and Secret Key
-- Update Widget URL to production widget
+- Disable the **Lunu Sandbox Mode** site preference
 
 For **Development/Staging**:
-- Use sandbox endpoints
 - Use test credentials
-- Test mode flag will be set automatically
+- Enable the **Lunu Sandbox Mode** site preference
 
 ## Usage
 

@@ -60,6 +60,24 @@ function getOrCreatePaymentNotificationCO(transactionId) {
 }
 
 /**
+ * Builds the Lunu payment widget URL for the given payment.
+ * The widget host is selected via the LunuSandboxMode site preference.
+ * @param {string} paymentId - payment ID returned by the Lunu create-payment API
+ * @returns {string} Lunu payment widget URL
+ */
+function getWidgetUrl(paymentId) {
+    const Site = require('dw/system/Site');
+    const URLUtils = require('dw/web/URLUtils');
+    const isSandbox = Site.getCurrent().getCustomPreferenceValue('LunuSandboxMode');
+    const widgetHost = isSandbox ? 'https://widget.sandbox.lunupay.com/' : 'https://widget.lunupay.com/';
+
+    return widgetHost
+        + '?order_id=' + encodeURIComponent(paymentId)
+        + '&success=' + encodeURIComponent(URLUtils.https('LunuPayment-Success').toString())
+        + '&cancel=' + encodeURIComponent(URLUtils.https('LunuPayment-Failed').toString());
+}
+
+/**
  * Get the enabled status from the integration and the active status of the Lunu payment method
  * @returns {boolean} Lunu payment method and integration active/enabled status
  */
@@ -72,6 +90,7 @@ function isLunuEnabledAndActive() {
 }
 
 module.exports = {
+    getWidgetUrl: getWidgetUrl,
     getOrCreatePaymentNotificationCO: getOrCreatePaymentNotificationCO,
     comparePaymentInformationAndOrder: comparePaymentInformationAndOrder,
     isLunuEnabledAndActive: isLunuEnabledAndActive
