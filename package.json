@@ -38,13 +38,25 @@
     "watch:static": "sgmf-scripts --watch static",
     "release": "node bin/Makefile release --"
   },
+  "keywords": [
+    "salesforce",
+    "commerce-cloud",
+    "sfcc",
+    "sfra",
+    "payment",
+    "cryptocurrency",
+    "lunu",
+    "crypto-payment",
+    "payment-gateway",
+    "blockchain"
+  ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/SalesforceCommerceCloud/storefront-reference-architecture.git"
+    "url": "git+https://gitlab.lunu.io/widget/salesforce-link-lunu-payment.git"
   },
-  "author": "Ilya Volodin <ivolodin@demandware.com>",
+  "author": "Lunu Payment Team",
   "license": "ISC",
-  "homepage": "https://github.com/SalesforceCommerceCloud/storefront-reference-architecture",
+  "homepage": "https://lunu.io",
   "devDependencies": {
     "@babel/core": "^7.6.3",
     "@babel/plugin-proposal-object-rest-spread": "^7.6.2",

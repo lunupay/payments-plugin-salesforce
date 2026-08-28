@@ -13,7 +13,6 @@ const server = require('server');
 server.extend(page);
 
 server.prepend('PlaceOrder', server.middleware.https, function (req, res, next) {
-    const Site = require('dw/system/Site');
     const Resource = require('dw/web/Resource');
     const URLUtils = require('dw/web/URLUtils');
     const OrderMgr = require('dw/order/OrderMgr');
@@ -204,11 +203,8 @@ server.prepend('PlaceOrder', server.middleware.https, function (req, res, next) 
     // Reset usingMultiShip after successful Order placement
     req.session.privacyCache.set('usingMultiShipping', false);
 
-    const confirmationToken = req.session.privacyCache.get('confirmationToken');
-    let widgetURL = Site.current.getCustomPreferenceValue('LunuWidgetURL');
-    widgetURL = widgetURL.replace(/{successURL}/, encodeURIComponent(URLUtils.https('LunuPayment-Success')).toString());
-    widgetURL = widgetURL.replace(/{cancelURL}/, encodeURIComponent(URLUtils.https('LunuPayment-Failed')).toString());
-    widgetURL = widgetURL.replace(/{token}/, confirmationToken);
+    const lunuPaymentId = req.session.privacyCache.get('lunuPaymentId');
+    const widgetURL = lunuHelpers.getWidgetUrl(lunuPaymentId);
 
     res.json({
         error: false,

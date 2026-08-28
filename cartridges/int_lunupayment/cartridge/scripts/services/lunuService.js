@@ -20,10 +20,23 @@ function getBasicAuthToken() {
     return null;
 }
 
+/**
+ * Resolves the Lunu API base URL from the service credential, with the host
+ * switched between production and sandbox by the LunuSandboxMode site
+ * preference. A credential URL pointing at neither Lunu host is left untouched.
+ * @param {dw.svc.ServiceCredential} credential - the http.lunupayment.cred credential
+ * @returns {string} Lunu API base URL
+ */
+function getApiBaseUrl(credential) {
+    const isSandbox = Site.current.getCustomPreferenceValue('LunuSandboxMode');
+    return isSandbox
+        ? credential.URL.replace('//api.lunupay.com', '//api.sandbox.lunupay.com')
+        : credential.URL.replace('//api.sandbox.lunupay.com', '//api.lunupay.com');
+}
+
 const createPaymentService = LocalServiceRegistry.createService('http.lunupayment', {
     createRequest: function (service, order) {
-        const credential = service.configuration.credential;
-        const finalUrl = credential.URL + 'payments/create';
+        const finalUrl = getApiBaseUrl(service.configuration.credential) + 'payments/create';
         const body = {
             email: order.getCustomerEmail(),
             shop_order_id: order.orderNo,
@@ -47,7 +60,6 @@ const createPaymentService = LocalServiceRegistry.createService('http.lunupaymen
         const result = jsonHelpers.parseJson(httpClient.getText());
         if (result && result.response) {
             return {
-                confirmationToken: result.response.confirmation_token || null,
                 transactionID: result.response.id || null
             };
         }
@@ -64,8 +76,7 @@ const createPaymentService = LocalServiceRegistry.createService('http.lunupaymen
 
 const getPaymentService = LocalServiceRegistry.createService('http.lunupayment', {
     createRequest: function (service, transactionID) {
-        const credential = service.configuration.credential;
-        const finalUrl = credential.URL + 'payments/get/' + transactionID;
+        const finalUrl = getApiBaseUrl(service.configuration.credential) + 'payments/get/' + transactionID;
 
         service.setURL(finalUrl);
         service.addHeader('Content-Type', 'application/json');

@@ -49,8 +49,8 @@ function Authorize(orderNumber, paymentInstrument, paymentProcessor) {
         const createPaymentResponse = lunuService.createPayment.call(order);
         const paymentObject = createPaymentResponse.object;
 
-        if (paymentObject && paymentObject.confirmationToken && paymentObject.transactionID) {
-            session.privacy.confirmationToken = paymentObject.confirmationToken;
+        if (paymentObject && paymentObject.transactionID) {
+            session.privacy.lunuPaymentId = paymentObject.transactionID;
             session.privacy.orderNo = order.orderNo;
             session.privacy.orderToken = order.orderToken;
 

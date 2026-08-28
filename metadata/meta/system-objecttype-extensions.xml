@@ -26,14 +26,13 @@
                 <externally-managed-flag>false</externally-managed-flag>
                 <min-length>0</min-length>
             </attribute-definition>
-            <attribute-definition attribute-id="LunuWidgetURL">
-                <display-name xml:lang="x-default">Lunu Widget URL</display-name>
-                <description xml:lang="x-default">Lunu Widget URL</description>
-                <type>string</type>
+            <attribute-definition attribute-id="LunuSandboxMode">
+                <display-name xml:lang="x-default">Lunu Sandbox Mode</display-name>
+                <description xml:lang="x-default">Enables the Lunu sandbox environment. When enabled, customers are redirected to https://widget.sandbox.lunupay.com/ instead of https://widget.lunupay.com/, and API calls go to api.sandbox.lunupay.com instead of api.lunupay.com (the host of the http.lunupayment.cred service credential URL is switched automatically; a credential URL pointing at a non-Lunu host is used as-is).</description>
+                <type>boolean</type>
                 <mandatory-flag>false</mandatory-flag>
                 <externally-managed-flag>false</externally-managed-flag>
-                <min-length>0</min-length>
-                <default-value>https://widget.lunu.io/testing/#/?action=select&amp;cancel={cancelURL}&amp;success={successURL}&amp;token={token}</default-value>
+                <default-value>false</default-value>
             </attribute-definition>
         </custom-attribute-definitions>
         <group-definitions>
@@ -42,7 +41,7 @@
                 <attribute attribute-id="LunuEnabled"/>
                 <attribute attribute-id="LunuAppID"/>
                 <attribute attribute-id="LunuSecretKey"/>
-                <attribute attribute-id="LunuWidgetURL"/>
+                <attribute attribute-id="LunuSandboxMode"/>
             </attribute-group>
         </group-definitions>
     </type-extension>
